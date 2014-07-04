@@ -14,10 +14,14 @@
  */
 package org.kuali.common.docker.client;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,6 +95,16 @@ public class DockerClientMain {
 				
 				if (response.getStatus() != 200)
 					System.err.println("FAILED");
+				
+				BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntityInputStream()));
+
+				String line = null;
+				
+				while ((line = reader.readLine()) != null) {
+					System.out.println(line);
+					
+				}
+				
 			}
 		} catch (Exception e) {
 
