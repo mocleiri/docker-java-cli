@@ -12,7 +12,7 @@
  *	or implied. See the License for the specific language governing
  *	permissions and limitations under the License.
  */
-package org.kuali.common.docker.client;
+package org.kuali.docker.client;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -53,7 +53,7 @@ public class DockerClientMain {
 	}
 	
 	private static void createImageUsage (boolean exitJvm) {
-		System.err.println("mode: create-image <docker tar file> [<image tag name>]");
+		System.err.println("mode: create-image <dockerfile containing directory> [<image tag name>]");
 		
 		if (exitJvm)
 			System.exit(-1);
@@ -70,7 +70,7 @@ public class DockerClientMain {
 		String serverUrl = args[0];
 		
 		try {
-			DockerClient client = new DockerClient(serverUrl);
+			DockerClient client = new DockerClient(serverUrl, 3600*1000, false);
 
 			if (args.length < 2)
 				usage();
@@ -82,9 +82,9 @@ public class DockerClientMain {
 				if (args.length < 3)
 					createImageUsage(true);
 				
-				String dockerTarArchive = args[2].trim();
+				String dockerfileContainingDirectory = args[2].trim();
 				
-				BuildImgCmd buildImageCmd = client.buildImageCmd(new FileInputStream (new File (dockerTarArchive)));
+				BuildImgCmd buildImageCmd = client.buildImageCmd(new File (dockerfileContainingDirectory));
 				
 				if (args.length > 3)
 					buildImageCmd.withTag(args[3]);
