@@ -73,6 +73,8 @@
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>org.kuali.docker.client.DockerClientMain</mainClass>
 								</transformer>
+								<!-- see: http://stackoverflow.com/q/12611213/2336755 --> 
+								<transformer						                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 							</transformers>
 						</configuration>
 					</execution>
